@@ -1,0 +1,35 @@
+{
+  "name": "@naujs/component",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naujs/component.git"
+  },
+  "author": "Tan Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naujs/component/issues"
+  },
+  "homepage": "https://github.com/naujs/component#readme",
+  "devDependencies": {
+    "babel": "^6.3.13",
+    "babel-core": "^6.3.15",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-eslint": "^1.1.1",
+    "jasmine": "^2.4.1"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
+}
