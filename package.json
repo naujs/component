@@ -1,6 +1,6 @@
 {
   "name": "@naujs/component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -25,9 +25,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.3.13",
     "gulp": "^3.9.0",
-    "gulp-babel": "^6.1.1",
-    "gulp-eslint": "^1.1.1",
-    "jasmine": "^2.4.1"
+    "@naujs/gulp-tasks": "latest"
   },
   "dependencies": {
     "lodash": "^3.10.1"
