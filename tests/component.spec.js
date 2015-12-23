@@ -1,4 +1,4 @@
-var Component = require('../src/component');
+var Component = require('../build/component');
 
 describe('Component', () => {
   var component;
