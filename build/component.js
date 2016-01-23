@@ -23,6 +23,11 @@ var Component = function (_EventEmitter) {
   }
 
   _createClass(Component, [{
+    key: 'getClass',
+    value: function getClass() {
+      return this.constructor;
+    }
+  }, {
     key: 'trigger',
     value: function trigger() {
       var args = Array.prototype.slice.apply(arguments);

@@ -25,6 +25,10 @@ class Component extends EventEmitter {
     delete instances[this.name];
   }
 
+  getClass() {
+    return this.constructor;
+  }
+
   trigger() {
     var args = Array.prototype.slice.apply(arguments);
     return this.emit.apply(this, args);

@@ -60,4 +60,11 @@ describe('Component', () => {
     });
   });
 
+  describe('#getClass', () => {
+    it('should return the class', () => {
+      var comp = new Component();
+      expect(comp.getClass()).toBe(Component);
+    });
+  });
+
 });
