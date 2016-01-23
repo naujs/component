@@ -1,6 +1,6 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -11,7 +11,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var EventEmitter = require('events'),
     _ = require('lodash');
 
-var Component = (function (_EventEmitter) {
+var instances = {};
+
+var Component = function (_EventEmitter) {
   _inherits(Component, _EventEmitter);
 
   function Component() {
@@ -26,10 +28,36 @@ var Component = (function (_EventEmitter) {
       var args = Array.prototype.slice.apply(arguments);
       return this.emit.apply(this, args);
     }
+  }], [{
+    key: 'getInstance',
+    value: function getInstance() {
+      var instance = instances[this.name];
+
+      if (!instance) {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        instance = new (Function.prototype.bind.apply(this, [null].concat(args)))();
+        instances[this.name] = instance;
+      }
+
+      return instance;
+    }
+  }, {
+    key: 'clearInstances',
+    value: function clearInstances() {
+      instances = {};
+    }
+  }, {
+    key: 'clearInstance',
+    value: function clearInstance() {
+      delete instances[this.name];
+    }
   }]);
 
   return Component;
-})(EventEmitter);
+}(EventEmitter);
 
 Component.mixin = function (object) {
   _.extend(this.prototype, object);

@@ -21,7 +21,7 @@
   "homepage": "https://github.com/naujs/component#readme",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "@naujs/gulp-tasks": "latest"
+    "@naujs/gulp-tasks": "^0.1.1"
   },
   "dependencies": {
     "lodash": "^3.10.1"
