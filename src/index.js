@@ -17,6 +17,11 @@ class Component extends EventEmitter {
     return instance;
   }
 
+  static mixin(instanceMethods, staticMethods) {
+    _.extend(this.prototype, instanceMethods || {});
+    _.extend(this, staticMethods || {});
+  }
+
   static clearInstances() {
     instances = {};
   }
@@ -34,9 +39,5 @@ class Component extends EventEmitter {
     return this.emit.apply(this, args);
   }
 }
-
-Component.mixin = function(object) {
-  _.extend(this.prototype, object);
-};
 
 module.exports = Component;

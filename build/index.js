@@ -50,6 +50,12 @@ var Component = (function (_EventEmitter) {
       return instance;
     }
   }, {
+    key: 'mixin',
+    value: function mixin(instanceMethods, staticMethods) {
+      _.extend(this.prototype, instanceMethods || {});
+      _.extend(this, staticMethods || {});
+    }
+  }, {
     key: 'clearInstances',
     value: function clearInstances() {
       instances = {};
@@ -63,9 +69,5 @@ var Component = (function (_EventEmitter) {
 
   return Component;
 })(EventEmitter);
-
-Component.mixin = function (object) {
-  _.extend(this.prototype, object);
-};
 
 module.exports = Component;
