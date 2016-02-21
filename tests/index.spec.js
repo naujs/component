@@ -1,6 +1,7 @@
 'use strict';
 
-var Component = require('../build/component');
+var Component = require('..');
+var Promise = require('@naujs/util').getPromise();
 
 class AnotherComponent extends Component {
   constructor(a, b, c) {
@@ -65,6 +66,61 @@ describe('Component', () => {
       var comp = new Component();
       expect(comp.getClass()).toBe(Component);
     });
+  });
+
+  describe('Hooks', () => {
+    var calls;
+
+    beforeEach(() => {
+      calls = [];
+      AnotherComponent.clearHooks('test');
+    });
+
+    it('should run hooks with the specified arguments', () => {
+      AnotherComponent.watch('test', function(str) {
+        calls.push(str + '0');
+      });
+
+      AnotherComponent.watch('test', function(str) {
+        calls.push(str + '1');
+      });
+
+      AnotherComponent.watch('test', function(str) {
+        calls.push(str + '2');
+      });
+
+      return AnotherComponent.runHooks('test', 'test').then(() => {
+        expect(calls).toEqual([
+          'test0',
+          'test1',
+          'test2'
+        ]);
+      });
+    });
+
+    it('should reject when one of the hook rejects', () => {
+      AnotherComponent.watch('test', function(str) {
+        calls.push(str + '0');
+      });
+
+      AnotherComponent.watch('test', function(str) {
+        return Promise.reject(str + '1');
+      });
+
+      AnotherComponent.watch('test', function(str) {
+        calls.push(str + '2');
+      });
+
+      return AnotherComponent.runHooks('test', 'test').then(() => {
+        throw 'Should not resolve';
+      }, (err) => {
+        expect(calls).toEqual([
+          'test0'
+        ]);
+        expect(err).toEqual('test1');
+      });
+    });
+
   });
 
 });
