@@ -38,12 +38,16 @@ class Component extends EventEmitter {
     return this;
   }
 
-  static clearHooks(name) {
+  static clearHook(name) {
     this._hooks = this._hooks || {};
     this._hooks[name] = [];
   }
 
-  static _runHooks(hooks, args) {
+  static clearHooks() {
+    this._hooks = {};
+  }
+
+  static _runHookFunctions(hooks, args) {
     if (!hooks || !hooks.length) {
       return Promise.resolve(true);
     }
@@ -53,19 +57,19 @@ class Component extends EventEmitter {
     return util.tryPromise(hook.apply(this, args)).catch((e) => {
       return Promise.reject(e);
     }).then(() => {
-      return this._runHooks(hooks, args);
+      return this._runHookFunctions(hooks, args);
     });
   }
 
-  static runHooks(name, ...args) {
+  static runHook(name, ...args) {
     this._hooks = this._hooks || {};
     let hooks = this._hooks[name] || [];
 
-    return this._runHooks(hooks, args);
+    return this._runHookFunctions(hooks, args);
   }
 
-  runHooks(name) {
-    return this.getClass().runHooks(name);
+  runHook(name) {
+    return this.getClass().runHook(name);
   }
 
   getClass() {

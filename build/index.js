@@ -24,9 +24,9 @@ var Component = (function (_EventEmitter) {
   }
 
   _createClass(Component, [{
-    key: 'runHooks',
-    value: function runHooks(name) {
-      return this.getClass().runHooks(name);
+    key: 'runHook',
+    value: function runHook(name) {
+      return this.getClass().runHook(name);
     }
   }, {
     key: 'getClass',
@@ -80,14 +80,19 @@ var Component = (function (_EventEmitter) {
       return this;
     }
   }, {
-    key: 'clearHooks',
-    value: function clearHooks(name) {
+    key: 'clearHook',
+    value: function clearHook(name) {
       this._hooks = this._hooks || {};
       this._hooks[name] = [];
     }
   }, {
-    key: '_runHooks',
-    value: function _runHooks(hooks, args) {
+    key: 'clearHooks',
+    value: function clearHooks() {
+      this._hooks = {};
+    }
+  }, {
+    key: '_runHookFunctions',
+    value: function _runHookFunctions(hooks, args) {
       var _this2 = this;
 
       if (!hooks || !hooks.length) {
@@ -99,12 +104,12 @@ var Component = (function (_EventEmitter) {
       return util.tryPromise(hook.apply(this, args)).catch(function (e) {
         return Promise.reject(e);
       }).then(function () {
-        return _this2._runHooks(hooks, args);
+        return _this2._runHookFunctions(hooks, args);
       });
     }
   }, {
-    key: 'runHooks',
-    value: function runHooks(name) {
+    key: 'runHook',
+    value: function runHook(name) {
       this._hooks = this._hooks || {};
       var hooks = this._hooks[name] || [];
 
@@ -112,7 +117,7 @@ var Component = (function (_EventEmitter) {
         args[_key2 - 1] = arguments[_key2];
       }
 
-      return this._runHooks(hooks, args);
+      return this._runHookFunctions(hooks, args);
     }
   }]);
 

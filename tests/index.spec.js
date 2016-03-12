@@ -73,7 +73,7 @@ describe('Component', () => {
 
     beforeEach(() => {
       calls = [];
-      AnotherComponent.clearHooks('test');
+      AnotherComponent.clearHook('test');
     });
 
     it('should run hooks with the specified arguments', () => {
@@ -89,7 +89,7 @@ describe('Component', () => {
         calls.push(str + '2');
       });
 
-      return AnotherComponent.runHooks('test', 'test').then(() => {
+      return AnotherComponent.runHook('test', 'test').then(() => {
         expect(calls).toEqual([
           'test0',
           'test1',
@@ -111,7 +111,7 @@ describe('Component', () => {
         calls.push(str + '2');
       });
 
-      return AnotherComponent.runHooks('test', 'test').then(() => {
+      return AnotherComponent.runHook('test', 'test').then(() => {
         throw 'Should not resolve';
       }, (err) => {
         expect(calls).toEqual([
