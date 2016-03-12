@@ -54,7 +54,7 @@ class Component extends EventEmitter {
 
     let hook = hooks.shift();
 
-    return util.tryPromise(hook.apply(this, args)).catch((e) => {
+    return util.tryPromise(hook(...args)).catch((e) => {
       return Promise.reject(e);
     }).then(() => {
       return this._runHookFunctions(hooks, args);
@@ -64,12 +64,11 @@ class Component extends EventEmitter {
   static runHook(name, ...args) {
     this._hooks = this._hooks || {};
     let hooks = this._hooks[name] || [];
-
-    return this._runHookFunctions(hooks, args);
+    return this._runHookFunctions(_.clone(hooks), args);
   }
 
-  runHook(name) {
-    return this.getClass().runHook(name);
+  runHook(name, ...args) {
+    return this.getClass().runHook(name, ...args);
   }
 
   getClass() {

@@ -2,6 +2,8 @@
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -26,7 +28,13 @@ var Component = (function (_EventEmitter) {
   _createClass(Component, [{
     key: 'runHook',
     value: function runHook(name) {
-      return this.getClass().runHook(name);
+      var _getClass;
+
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      return (_getClass = this.getClass()).runHook.apply(_getClass, [name].concat(args));
     }
   }, {
     key: 'getClass',
@@ -45,8 +53,8 @@ var Component = (function (_EventEmitter) {
       var instance = instances[this.name];
 
       if (!instance) {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
         }
 
         instance = new (Function.prototype.bind.apply(this, [null].concat(args)))();
@@ -101,7 +109,7 @@ var Component = (function (_EventEmitter) {
 
       var hook = hooks.shift();
 
-      return util.tryPromise(hook.apply(this, args)).catch(function (e) {
+      return util.tryPromise(hook.apply(undefined, _toConsumableArray(args))).catch(function (e) {
         return Promise.reject(e);
       }).then(function () {
         return _this2._runHookFunctions(hooks, args);
@@ -113,11 +121,11 @@ var Component = (function (_EventEmitter) {
       this._hooks = this._hooks || {};
       var hooks = this._hooks[name] || [];
 
-      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
+      for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+        args[_key3 - 1] = arguments[_key3];
       }
 
-      return this._runHookFunctions(hooks, args);
+      return this._runHookFunctions(_.clone(hooks), args);
     }
   }]);
 
